@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marina Batchi — Autrice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-purple: #1a0a2e;
+            --mid-purple: #2d1554;
+            --soft-purple: #4a2878;
+            --gold: #c9a84c;
+            --gold-light: #e8d48b;
+            --cream: #f5f0e8;
+            --subtle: #b8a89a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--deep-purple);
+            color: var(--cream);
+            font-family: 'Cormorant Garamond', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Ambient background */
+        .ambient {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.12;
+            animation: float 14s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 500px; height: 500px;
+            background: var(--soft-purple);
+            top: -150px; right: -100px;
+        }
+
+        .orb-2 {
+            width: 350px; height: 350px;
+            background: var(--gold);
+            bottom: 10%; left: -80px;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 250px; height: 250px;
+            background: var(--soft-purple);
+            top: 60%; right: 10%;
+            animation-delay: -9s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(25px, -18px) scale(1.04); }
+            66% { transform: translate(-18px, 12px) scale(0.96); }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        /* Hero section */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            margin-bottom: 80px;
+            opacity: 0;
+            animation: fadeUp 1.2s ease forwards 0.3s;
+        }
+
+        .photo-container {
+            flex-shrink: 0;
+            width: 280px;
+            height: 280px;
+            position: relative;
+        }
+
+        .photo-frame {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(201, 168, 76, 0.3);
+            background: linear-gradient(135deg, var(--mid-purple) 0%, var(--soft-purple) 50%, rgba(201,168,76,0.3) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .photo-placeholder {
+            text-align: center;
+            color: rgba(245, 240, 232, 0.5);
+        }
+
+        .photo-placeholder .icon {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            opacity: 0.6;
+        }
+
+        .photo-placeholder .text {
+            font-size: 0.85rem;
+            font-style: italic;
+            letter-spacing: 0.05em;
+        }
+
+        /* Gold accent ring */
+        .photo-ring {
+            position: absolute;
+            top: -8px; left: -8px;
+            width: calc(100% + 16px);
+            height: calc(100% + 16px);
+            border-radius: 50%;
+            border: 1px solid rgba(201, 168, 76, 0.15);
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-line {
+            width: 50px;
+            height: 1px;
+            background: var(--gold);
+            margin-bottom: 25px;
+        }
+
+        .hero-name {
+            font-family: 'Cinzel', serif;
+            font-size: 2.6rem;
+            font-weight: 400;
+            color: var(--gold);
+            letter-spacing: 0.08em;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .hero-title {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--subtle);
+            font-weight: 300;
+            margin-bottom: 25px;
+        }
+
+        .hero-short-bio {
+            font-size: 1.15rem;
+            font-weight: 300;
+            line-height: 1.9;
+            color: rgba(245, 240, 232, 0.7);
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 70px 0;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.8s;
+        }
+
+        .div-line {
+            width: 70px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.3;
+        }
+
+        .div-diamond {
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            transform: rotate(45deg);
+        }
+
+        /* Bio section */
+        .bio-section {
+            opacity: 0;
+            animation: fadeUp 1.2s ease forwards 1s;
+        }
+
+        .section-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.7;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .bio-text {
+            font-size: 1.2rem;
+            font-weight: 300;
+            line-height: 2.1;
+            color: rgba(245, 240, 232, 0.8);
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* Book section */
+        .book-section {
+            margin-top: 80px;
+            opacity: 0;
+            animation: fadeUp 1.2s ease forwards 1.3s;
+        }
+
+        .book-card {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            background: rgba(45, 21, 84, 0.4);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            border-radius: 12px;
+            padding: 50px;
+            margin-top: 30px;
+        }
+
+        .book-cover {
+            flex-shrink: 0;
+            width: 200px;
+            height: 300px;
+            background: linear-gradient(170deg, var(--mid-purple) 0%, var(--soft-purple) 40%, rgba(201,168,76,0.2) 100%);
+            border-radius: 8px;
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .book-cover .book-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--gold);
+            letter-spacing: 0.08em;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .book-cover .book-subtitle {
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--gold-light);
+            opacity: 0.7;
+        }
+
+        .book-cover .book-author {
+            position: absolute;
+            bottom: 25px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            color: var(--subtle);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .book-info h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: var(--gold);
+            font-weight: 400;
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+        }
+
+        .book-info p {
+            font-size: 1.1rem;
+            font-weight: 300;
+            line-height: 1.9;
+            color: rgba(245, 240, 232, 0.7);
+            margin-bottom: 12px;
+        }
+
+        .book-info .book-status {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 20px;
+            border: 1px solid var(--gold);
+            border-radius: 25px;
+            font-size: 0.8rem;
+            color: var(--gold);
+            letter-spacing: 0.12em;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Social links */
+        .social-section {
+            margin-top: 80px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 1.2s ease forwards 1.6s;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            border-radius: 30px;
+            text-decoration: none;
+            color: var(--cream);
+            font-size: 0.9rem;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+        }
+
+        .social-link:hover {
+            border-color: var(--gold);
+            background: rgba(201, 168, 76, 0.1);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .social-link .social-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 100px;
+            padding-top: 50px;
+            border-top: 1px solid rgba(201, 168, 76, 0.12);
+            opacity: 0;
+            animation: fadeUp 1.2s ease forwards 1.8s;
+        }
+
+        .footer .footer-quote {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--gold-light);
+            opacity: 0.7;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .footer .footer-name {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.6;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 35px;
+            }
+
+            .hero-line {
+                margin: 0 auto 25px;
+            }
+
+            .photo-container {
+                width: 200px;
+                height: 200px;
+            }
+
+            .book-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 35px 25px;
+            }
+
+            .container {
+                padding: 60px 22px;
+            }
+
+            .hero-name {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient orbs -->
+    <div class="ambient">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+    </div>
+
+    <div class="container">
+
+        <!-- Hero -->
+        <div class="hero">
+            <div class="photo-container">
+                <div class="photo-ring"></div>
+                <div class="photo-frame">
+                    <div class="photo-placeholder">
+                        <div class="icon">✦</div>
+                        <div class="text">Photo<br>à venir</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-content">
+                <div class="hero-line"></div>
+                <h1 class="hero-name">Marina Batchi</h1>
+                <p class="hero-title">Autrice · Née à Brazzaville, Congo</p>
+                <p class="hero-short-bio">
+                    Passionnée par l'écriture, la méditation et l'observation, elle trouve dans les mots un espace paisible pour déposer ses réflexions et son attention aux autres.
+                </p>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider">
+            <div class="div-line"></div>
+            <div class="div-diamond"></div>
+            <div class="div-line"></div>
+        </div>
+
+        <!-- Bio -->
+        <div class="bio-section">
+            <p class="section-label">À propos</p>
+            <p class="bio-text">
+                Marina Batchi est née à Brazzaville, au Congo, une terre qui continue d'inspirer sa sensibilité et son regard sur la vie. Passionnée par l'écriture, la méditation et l'observation, elle trouve dans les mots un espace paisible pour déposer ses réflexions et son attention aux autres.<br><br>
+                Mère de deux enfants et issue d'une grande famille de douze frères et sœurs, elle accorde une place essentielle aux liens familiaux, qu'elle considère comme un repère précieux. Attentive aux réalités humaines et sociales, elle avance avec le désir sincère d'apporter, à sa manière, une présence bienveillante autour d'elle.<br><br>
+                Pour Marina, écrire est avant tout une démarche intérieure — une façon simple de partager, de relier et de rester proche de l'essentiel.
+            </p>
+        </div>
+
+        <!-- Book -->
+        <div class="book-section">
+            <p class="section-label">Son Œuvre</p>
+
+            <div class="book-card">
+                <div class="book-cover">
+                    <div class="book-title">MIAH<br>HATIMA</div>
+                    <div class="book-subtitle">(Le destin)</div>
+                    <div class="book-author">Marina Batchi</div>
+                </div>
+
+                <div class="book-info">
+                    <h3>MIAH, HATIMA (Le destin)</h3>
+                    <p>
+                        Son premier roman, une œuvre littéraire qui explore les thèmes de la résilience, de l'amour impossible et de la reconstruction après les épreuves de la vie.
+                    </p>
+                    <p>
+                        À travers l'histoire de Miah, Marina Batchi tisse un récit poignant sur la force de l'esprit humain face à l'adversité, un voyage entre l'Afrique et l'espoir.
+                    </p>
+                    <p>
+                        Elle poursuit actuellement l'écriture du Tome 2, continuant ainsi son chemin avec patience et confiance.
+                    </p>
+                    <span class="book-status">✦ Bientôt publié</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social links -->
+        <div class="social-section">
+            <p class="section-label">Rejoignez-moi</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/minamc08" class="social-link" target="_blank">
+                    <span class="social-icon">◎</span> Instagram
+                </a>
+                <a href="https://linktr.ee/miahhatima_ledestin" class="social-link" target="_blank">
+                    <span class="social-icon">✦</span> Linktree
+                </a>
+                <a href="https://www.linkedin.com/in/marina-batchi-13a19513b" class="social-link" target="_blank">
+                    <span class="social-icon">◈</span> LinkedIn
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p class="footer-quote">
+                "Écrire est avant tout une démarche intérieure —<br>
+                une façon simple de partager, de relier<br>
+                et de rester proche de l'essentiel."
+            </p>
+            <p class="footer-name">— Marina Batchi</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
